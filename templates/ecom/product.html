@@ -16,7 +16,7 @@ about
 <h2>Products</h2>
 <ol>
     {% for product in products %}
-    <li>{{product.name}} -- ({%for tag in product.tag.all %} {{tag.tag}} {%endfor%})</li>
+    <li>{{product.name}} -- {%for tag in product.tag.all %} <a href="">{{tag.tag}}</a> {%endfor%}</li>
     {% endfor %}
 </ol>
 

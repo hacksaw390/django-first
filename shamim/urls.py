@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import NewContact, HomeView, NewContactView, CustomerCreateView, ContactListView,ProductDetailView
+from .views import NewContact, HomeView, NewContactView, CustomerCreateView, ContactListView, \
+    ProductDetailView, ProductUpdateView, ProductDeleteView
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -9,11 +10,15 @@ urlpatterns = [
     # path('about', views.about, name='about'),
     path('about', ContactListView.as_view(), name='about'),
     path('product-detail/<int:pk>', ProductDetailView.as_view(), name='product-detail'),
+    path('product-edit/<int:pk>', ProductUpdateView.as_view(), name='product-edit'),
+    path('delete/<int:pk>', ProductDeleteView.as_view(), name='delete'),
 
     path('customer', CustomerCreateView.as_view(), name='customer'),
     # path('customer', views.customer, name='customer'),
 
     path('product', views.product, name='product'),
+
+
     path('order', views.order, name='order'),
     path('register', views.register, name='register'),
     path('login/', views.userLogin, name='login'),

@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .decorator import check_authenticated
 from django.views import View
-from django.views.generic import TemplateView, FormView, CreateView, ListView, DeleteView
+from django.views.generic import TemplateView, FormView, CreateView, ListView, DeleteView, UpdateView, DetailView
 
 
 class NewContactView(FormView):
@@ -128,6 +128,24 @@ class ProductDetailView(DeleteView):
     context_object_name = 'product'
 
 
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'ecom/edit.html'
+
+    def get_success_url(self):
+        id = self.object.id
+        return reverse_lazy('product-detail', kwargs={'pk': id})
+
+
+class ProductDeleteView(DeleteView):
+    template_name = 'ecom/delete.html'
+    model = Product
+
+    def get_success_url(self):
+        return reverse_lazy('about')
+
+
 @login_required(login_url='login')
 def about(request):
 
@@ -179,7 +197,7 @@ def product(request):
         if form.is_valid():
             form.save()
             return redirect('product')
-    products = Product.objects.order_by('-id').values()
+    products = Product.objects.prefetch_related('tag').order_by('-id')
     tag_products = Product.objects.filter(category='indor').order_by('id')
     context = {
         'form': form,

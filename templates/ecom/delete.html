@@ -1,0 +1,20 @@
+{% extends 'master.html' %}
+{% load humanize %}
+
+{% block 'title' %}
+about
+{% endblock %}
+
+{% block 'content' %}
+
+<form method="POST">
+    {% csrf_token %}
+    <h1>Are you sure?</h1>
+    <button type="submit">Yes</button>
+</form>
+<hr>
+
+
+
+
+{% endblock %}
