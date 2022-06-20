@@ -1,0 +1,20 @@
+{% extends 'master.html' %}
+{% load humanize %}
+
+{% block 'title' %}
+about
+{% endblock %}
+
+{% block 'content' %}
+<h2>Product Detail</h2>
+
+<p>name: {{product.name}}</p>
+<p>category : {{product.category}}</p>
+<p>price : {{product.price}}</p>
+<p>
+{% for tag in product.tag.all %}
+    {{tag.tag}},
+{% endfor %}
+</p>
+
+{% endblock %}

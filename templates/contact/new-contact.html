@@ -1,0 +1,22 @@
+{% extends 'master.html' %}
+
+{% block 'title' %}
+home
+{% endblock %}
+
+
+{% block 'content' %}
+<h1>new contact</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">submit</button>
+</form>
+<br>
+<hr>
+<ul>
+    {% for contact in contacts %}
+    <li>{{contact.fname}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,8 +1,9 @@
+from dataclasses import fields
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Customer, Product, Order
+from .models import Contact, Customer, Product, Order
 
 
 class UserRegisterForm(UserCreationForm):
@@ -26,4 +27,14 @@ class ProductForm(ModelForm):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
+        fields = '__all__'
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+
+class NewContactForm(ModelForm):
+    class Meta:
+        model = Contact
         fields = '__all__'

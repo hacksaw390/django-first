@@ -16,16 +16,11 @@ about
 <h2>Products</h2>
 <ol>
     {% for product in products %}
-    <li>{{product.name}} -- ({{product.tag}})</li>
+    <li>{{product.name}} -- ({%for tag in product.tag.all %} {{tag.tag}} {%endfor%})</li>
     {% endfor %}
 </ol>
 
-<h2>tags</h2>
-<ol>
-    {% for product in tag_products %}
-    <li>{{product_set.name}}</li>
-    {% endfor %}
-</ol>
+
 
 
 {% endblock %}
