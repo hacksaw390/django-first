@@ -1,0 +1,13 @@
+{% extends 'master.html' %}
+{% load humanize %}
+
+{% block 'title' %}
+about
+{% endblock %}
+
+{% block 'content' %}
+
+{% for a in data %}
+<h1>{{a.fname}}-{{a.date_created|naturaltime}}</h1>
+{% endfor %}
+{% endblock %}

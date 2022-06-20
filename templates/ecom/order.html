@@ -1,0 +1,40 @@
+{% extends 'master.html' %}
+{% load humanize %}
+
+{% block 'title' %}
+about
+{% endblock %}
+
+{% block 'content' %}
+
+<form action="{% url 'order' %}" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">submit</button>
+</form>
+
+<hr>
+
+<h2>All Order</h2>
+<ol>
+    {% for order in orders %}
+    <li>{{order.customer.name}} -- ({{order.status}})</li>
+    {% endfor %}
+</ol>
+
+<h2>Pending Order</h2>
+<ol>
+    {% for order in pending_orders %}
+    <li>{{order.customer.name}} -- ({{order.product.name}})</li>
+    {% endfor %}
+</ol>
+
+<h2>Delivered Order</h2>
+<ol>
+    {% for order in delivered_orders %}
+    <li>{{order.customer.name}} -- ({{order.product.name}})</li>
+    {% endfor %}
+</ol>
+
+
+{% endblock %}

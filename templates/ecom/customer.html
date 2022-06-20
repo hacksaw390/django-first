@@ -1,0 +1,23 @@
+{% extends 'master.html' %}
+{% load humanize %}
+
+{% block 'title' %}
+about
+{% endblock %}
+
+{% block 'content' %}
+
+<form action="{% url 'customer' %}" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">submit</button>
+</form>
+
+<hr>
+<ol>
+    {% for customer in customers %}
+    <li>{{customer.name}}- ({{customer.email}})</li>
+    {% endfor %}
+</ol>
+
+{% endblock %}

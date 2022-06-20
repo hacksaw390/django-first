@@ -1,0 +1,31 @@
+{% extends 'master.html' %}
+{% load humanize %}
+
+{% block 'title' %}
+about
+{% endblock %}
+
+{% block 'content' %}
+
+<form action="{% url 'product' %}" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">submit</button>
+</form>
+<hr>
+<h2>Products</h2>
+<ol>
+    {% for product in products %}
+    <li>{{product.name}} -- ({{product.tag}})</li>
+    {% endfor %}
+</ol>
+
+<h2>tags</h2>
+<ol>
+    {% for product in tag_products %}
+    <li>{{product_set.name}}</li>
+    {% endfor %}
+</ol>
+
+
+{% endblock %}

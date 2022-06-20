@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block 'title' %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+</head>
+<body>
+<div>
+{% include 'includes/nav.html' %}
+</div>
+<hr>
+<div>
+    {% block 'content' %}{% endblock %}
+</div>
+<hr>
+<div>
+    footer
+</div>
+</body>
+</html>
