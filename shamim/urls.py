@@ -12,6 +12,7 @@ urlpatterns = [
     path('product-detail/<int:pk>', ProductDetailView.as_view(), name='product-detail'),
     path('product-edit/<int:pk>', ProductUpdateView.as_view(), name='product-edit'),
     path('delete/<int:pk>', ProductDeleteView.as_view(), name='delete'),
+    path('tag-product/<int:pk>', ProductDeleteView.as_view(), name='tag-product'),
 
     path('customer', CustomerCreateView.as_view(), name='customer'),
     # path('customer', views.customer, name='customer'),
