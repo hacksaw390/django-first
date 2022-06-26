@@ -14,13 +14,33 @@ about
 </form>
 <hr>
 <h2>Products</h2>
-<ol>
+<table border="">
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th colspan="3">Tag</th>
+    </tr>
     {% for product in products %}
-    <li>{{product.name}} -- {%for tag in product.tag.all %} <a href="tag-product/{%tag.id%}">{{tag.tag}}</a> {%endfor%}</li>
+    <tr>
+        <td>{{product.name}}</td>
+        <td><a href="{% url 'category-product' product.category %}">{{product.category}}</a></td>
+        {%for tag in product.tag.all %}
+        <td><a href="{% url 'tag-product' tag.id %}">{{tag.tag}} </a></td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>tags </h2>
+<ol>
+    {% for tag in tags %}
+        {% if tag.total_product > 0  %}
+    <li><a href="{% url 'tag-product' tag.id %}">
+        {{tag.tag}} --{{tag.total_product}} {% for item in tag.product_set.all %}#id: {{item.id}}-{{item.name}}{%endfor%}
+    </a></li>
+        {%endif%}
     {% endfor %}
 </ol>
-
-
 
 
 {% endblock %}

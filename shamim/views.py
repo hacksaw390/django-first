@@ -1,6 +1,6 @@
 from re import template
 from django.shortcuts import render, redirect
-from .models import Contact, Customer, Product, Order, Contact
+from .models import Contact, Customer, Product, Order, Contact, Tag
 from .forms import CustomerForm, ProductForm, OrderForm, UserRegisterForm, ContactForm, NewContactForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -13,6 +13,20 @@ from .decorator import check_authenticated
 from django.views import View
 from django.views.generic import TemplateView, FormView, CreateView, ListView, DeleteView, UpdateView, DetailView
 
+
+class CustomerCreateView(CreateView):
+    form_class = CustomerForm
+    template_name = 'ecom/customer.html'
+    success_url = 'customer'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['customers'] = Customer.objects.order_by('-id')
+        return context
 
 class NewContactView(FormView):
     form_class = NewContactForm
@@ -122,7 +136,7 @@ class ContactListView(ListView):
         return context
 
 
-class ProductDetailView(DeleteView):
+class ProductDetailView(DetailView):
     template_name = 'about/product-detail.html'
     model = Product
     context_object_name = 'product'
@@ -157,19 +171,7 @@ def about(request):
     return render(request, 'about/about.html', context)
 
 
-class CustomerCreateView(CreateView):
-    form_class = CustomerForm
-    template_name = 'ecom/customer.html'
-    success_url = 'customer'
 
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['customers'] = Customer.objects.order_by('-id')
-        return context
 
 
 @login_required(login_url='login')
@@ -189,6 +191,40 @@ def customer(request):
     return render(request, 'ecom/customer.html', context)
 
 
+class tagProduct(ListView):
+    template_name = 'ecom/tag-product.html'
+    # queryset = Product.objects.filter()
+    context_object_name = 'tags'
+    model = Product
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset=queryset.filter(tag=self.kwargs.get('pk',None))
+        return queryset
+
+
+class CategoryProduct(ListView):
+    template_name = 'ecom/tag-product.html'
+    model = Product
+    # queryset = Product.objects.filter()
+    context_object_name = 'tags'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(category=self.kwargs.get('category', None))
+        return queryset
+
+
+
+
+# def tagProduct(request, pk):
+#
+#     tag = Tag.objects.get(id=pk)
+#     products = Product.objects.filter(tag=tag)
+#     context = {'products': products, 'tag':tag}
+#     return render(request, 'ecom/tag-product.html',context)
+
+from django.db.models import Count
 @login_required(login_url='login')
 def product(request):
     form = ProductForm()
@@ -199,10 +235,12 @@ def product(request):
             return redirect('product')
     products = Product.objects.prefetch_related('tag').order_by('-id')
     tag_products = Product.objects.filter(category='indor').order_by('id')
+    tags = Tag.objects.all().annotate(total_product=Count('product_set')).prefetch_related('product_set')
     context = {
         'form': form,
         'products': products,
-        'tag_products': tag_products
+        'tag_products': tag_products,
+        'tags': tags
     }
     return render(request, 'ecom/product.html', context)
 

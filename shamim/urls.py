@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import NewContact, HomeView, NewContactView, CustomerCreateView, ContactListView, \
-    ProductDetailView, ProductUpdateView, ProductDeleteView
+    ProductDetailView, ProductUpdateView, ProductDeleteView, tagProduct, CategoryProduct
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -12,7 +12,10 @@ urlpatterns = [
     path('product-detail/<int:pk>', ProductDetailView.as_view(), name='product-detail'),
     path('product-edit/<int:pk>', ProductUpdateView.as_view(), name='product-edit'),
     path('delete/<int:pk>', ProductDeleteView.as_view(), name='delete'),
-    path('tag-product/<int:pk>', ProductDeleteView.as_view(), name='tag-product'),
+
+    # path('tag-product/<int:pk>', views.tagProduct, name='tag-product'),
+    path('tag-product/<int:pk>', tagProduct.as_view(), name='tag-product'),
+    path('category-product/<str:category>', CategoryProduct.as_view(), name='category-product'),
 
     path('customer', CustomerCreateView.as_view(), name='customer'),
     # path('customer', views.customer, name='customer'),
